@@ -75,4 +75,5 @@ jobs:
       - name: Create Release
         uses: mikepenz/action-gh-release@v0.2.0-a03 #softprops/action-gh-release
         with:
+          toTag: ${{inputs.tag}}
           body: ${{steps.github_release.outputs.changelog}}
