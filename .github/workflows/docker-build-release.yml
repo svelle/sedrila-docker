@@ -23,6 +23,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -72,4 +79,4 @@ jobs:
         with:
           name: Release ${{ inputs.tag }}
           tag_name: ${{ inputs.tag }}
-          generate_release_notes: true
+          body: ${{ steps.changelog.outputs.changes }}
