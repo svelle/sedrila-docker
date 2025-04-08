@@ -58,6 +58,14 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
+      - name: Create Git Tag
+        if: inputs.tag != ''
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag ${{ inputs.tag }}
+          git push origin ${{ inputs.tag }}
+          
       - name: Create GitHub Release
         if: inputs.tag != ''
         uses: softprops/action-gh-release@v1
