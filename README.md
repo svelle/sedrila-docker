@@ -43,11 +43,19 @@ After adding this and restarting your shell (or running `source ~/.bashrc`), you
 
 ```bash
 # Get help for a command
-sedrila student --help
-
-# With your current directory mounted to /data in the container
-sedrila student /data
+sedrila --help
 ```
+
+### Author Mode Example
+
+For course authors working in a propra directory:
+
+```bash
+# Run from within your propra directory
+sedrila author --include_stage beta out
+```
+
+This will build the course website in the `out` directory of your propra folder.
 
 ### Mounting Local Directories
 
