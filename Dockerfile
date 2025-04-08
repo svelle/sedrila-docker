@@ -38,9 +38,14 @@ RUN printf '#!/bin/sh\n\
 # Get virtual environment path and run sedrila\n\
 # Use SEDRILA_VERBOSE=1 to enable verbose output\n\
 VENV_PATH=$(poetry env info --path)\n\
+# Change to working directory if it exists (handles /data mount)\n\
+if [ -d "/data" ]; then\n\
+    cd /data\n\
+fi\n\
 if [ -n "$SEDRILA_VERBOSE" ]; then\n\
     set -x  # Print commands for debugging\n\
     echo "Using Python from: $VENV_PATH/bin/python"\n\
+    echo "Current working directory: $(pwd)"\n\
     echo "Running: $VENV_PATH/bin/python /app/py/sedrila.py $*"\n\
 fi\n\
 $VENV_PATH/bin/python /app/py/sedrila.py "$@"\n' > /usr/local/bin/sedrila \

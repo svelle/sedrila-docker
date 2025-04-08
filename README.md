@@ -65,7 +65,7 @@ To access local files from within the container, you can mount directories:
 docker run -it -v $(pwd):/data sedrila
 ```
 
-This mounts your current working directory to `/data` inside the container.
+This mounts your current working directory to `/data` inside the container. The container will automatically detect and use this mounted directory as the working directory.
 
 ### Debugging
 
