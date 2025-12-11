@@ -68,15 +68,17 @@ jobs:
           
       - name: Build Changelog
         id: github_release
+        if: github.event_name == 'workflow_dispatch' && inputs.tag != '' || github.ref_type == 'tag'
         uses: mikepenz/release-changelog-builder-action@v5
         with:
           mode: HYBRID
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Create Release
-        uses: softprops/action-gh-release
+        if: github.event_name == 'workflow_dispatch' && inputs.tag != '' || github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
         with:
-          name: ${{ inputs.tag }}
+          name: ${{ inputs.tag || github.ref_name }}
           body: ${{steps.github_release.outputs.changelog}}
-          tag_name: ${{ inputs.tag }}
+          tag_name: ${{ inputs.tag || github.ref_name }}
