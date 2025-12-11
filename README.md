@@ -10,6 +10,14 @@ To build the Docker image, run the following command in the directory containing
 docker build -t sedrila .
 ```
 
+To rebuild with the latest Sedrila code from the repository, use the `--no-cache` flag to force a fresh clone:
+
+```bash
+docker build --no-cache -t sedrila .
+```
+
+**Note:** The Sedrila repository is cloned during the Docker build process. Without `--no-cache`, Docker's layer caching will reuse the previously cloned version.
+
 ## Running the Container
 
 Once the image is built, you can run Sedrila using:
@@ -84,6 +92,46 @@ docker run -it --entrypoint /bin/bash sedrila
 ```
 
 This will give you a bash shell inside the container where you can explore and debug.
+
+## Release Process
+
+This repository uses GitHub Actions to automatically build and publish Docker images to GitHub Container Registry (ghcr.io).
+
+### Automatic Builds
+
+Every push to the `main` branch triggers an automatic build that creates Docker images tagged with:
+- `latest`
+- Short commit SHA (e.g., `abc1234`)
+
+### Creating a Release
+
+To create a versioned release:
+
+1. Go to the **Actions** tab in the GitHub repository
+2. Select the **Build and Release Docker Image** workflow
+3. Click **Run workflow**
+4. Enter a version tag (e.g., `v1.0.0`)
+5. Click **Run workflow**
+
+This will:
+- Create a Git tag with the specified version
+- Build and push Docker images with semantic version tags (e.g., `v1.0.0`, `1.0`, `1`)
+- Generate a changelog from commit messages
+- Create a GitHub release with the changelog
+
+### Using Released Images
+
+Pull a specific version from GitHub Container Registry:
+
+```bash
+# Pull latest version
+docker pull ghcr.io/OWNER/sedrila-docker:latest
+
+# Pull specific version
+docker pull ghcr.io/OWNER/sedrila-docker:v1.0.0
+```
+
+Replace `OWNER` with the repository owner's GitHub username or organization name.
 
 ## License
 
