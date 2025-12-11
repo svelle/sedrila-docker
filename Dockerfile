@@ -6,7 +6,6 @@ RUN apk add --no-cache \
     py3-pip \
     git \
     bash \
-    pipx \
     gcc \
     g++ \
     musl-dev \
@@ -19,9 +18,10 @@ RUN apk add --no-cache \
     cmake \
     gnupg
 
-# Install poetry using pipx
-RUN pipx install poetry
-RUN pipx ensurepath
+# Install pipx and poetry
+RUN python3 -m pip install --break-system-packages pipx && \
+    python3 -m pipx ensurepath && \
+    python3 -m pipx install poetry
 ENV PATH="/root/.local/bin:$PATH"
 
 # Set working directory
