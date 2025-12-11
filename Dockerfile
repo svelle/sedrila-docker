@@ -5,7 +5,6 @@ RUN apk add --no-cache \
     python3 \
     py3-pip \
     git \
-    bash \
     gcc \
     g++ \
     musl-dev \
@@ -19,10 +18,9 @@ RUN apk add --no-cache \
     gnupg
 
 # Install pipx and poetry
-RUN python3 -m pip install --break-system-packages pipx && \
-    python3 -m pipx ensurepath && \
-    python3 -m pipx install poetry
+RUN python3 -m pip install --break-system-packages pipx
 ENV PATH="/root/.local/bin:$PATH"
+RUN python3 -m pipx install poetry
 
 # Set working directory
 WORKDIR /app
@@ -31,8 +29,7 @@ WORKDIR /app
 RUN git clone https://github.com/fubinf/sedrila.git . 
 
 # Install dependencies using Poetry's own virtual environment
-RUN poetry install --no-interaction --no-ansi && \
-    echo 'source $(poetry env info --path)/bin/activate' >> /root/.bashrc
+RUN poetry install --no-interaction --no-ansi
 
 # Set up sedrila command
 RUN printf '#!/bin/sh\n\
