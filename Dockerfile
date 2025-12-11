@@ -16,7 +16,8 @@ RUN apk add --no-cache \
     openblas-dev \
     build-base \
     meson \
-    cmake
+    cmake \
+    gnupg
 
 # Install poetry using pipx
 RUN pipx install poetry
